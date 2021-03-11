@@ -47,7 +47,23 @@ event(°id, time, description, type, #match_id, #player_id)
 
 ## Endpoints API
 
-**Championnats :**
+### Liste globale
+
+```
+GET /championships
+GET /championship/:id
+GET /championship/:id/matches
+GET /championship/:id/teams
+GET teams/:id
+GET /clubs
+GET /clubs/:id
+GET /matches/:id
+PATCH /matches/:id
+POST /matches/:id/event
+DELETE /events/:id
+```
+
+### Championnats
 
 ```
 GET /championships
@@ -148,7 +164,7 @@ résultat : informations détaillées du dernier championnat
 }
 ```
 
-**Equipes :**
+### Equipes
 
 ```
 GET teams/:id
@@ -187,7 +203,7 @@ résultat : informations détaillées d'une équipe
 }
 ```
 
-**Clubs :**
+### Clubs
 
 ```
 GET /clubs
@@ -234,7 +250,7 @@ résultat : informations détaillées d'un club
 }
 ```
 
-**Matchs :**
+### Matchs
 
 ```
 GET /matches/:id
@@ -321,7 +337,7 @@ résultat : création d'un événement associé à un match
 }
 ```
 
-**Événement :**
+### Événement
 
 ```
 DELETE /events/:id
