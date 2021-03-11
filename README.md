@@ -47,7 +47,23 @@ event(°id, time, description, type, #match_id, #player_id)
 
 ## Endpoints API
 
-**Championnats :**
+### Liste globale
+
+```
+GET /championships
+GET /championships/last
+GET /championship/:id
+GET /championship/:id/matches
+GET teams/:id
+GET /clubs
+GET /clubs/:id
+GET /matches/:id
+PATCH /matches/:id
+POST /matches/:id/event
+DELETE /events/:id
+```
+
+### Championnats
 
 ```
 GET /championships
@@ -73,6 +89,29 @@ params url :
     - id : identifiant du championnat
 
 résultat : informations détaillées d'un championnat
+
+{
+   "id": 1,
+   "year": 2000,
+   "name": "Championnat de Poudelard 2000"
+   "teams": [
+       {
+           "id": 1,
+           "name": Gryffondor 2000,
+           "logo": data,
+           "points": 8
+       },
+       ...
+   ]
+}
+```
+
+```
+GET /championship/last
+
+params url : aucun
+
+résultat : informations détaillées du dernier championnat
 
 {
    "id": 1,
@@ -125,30 +164,7 @@ résultat : informations sur les matchs d'un championnat
 }
 ```
 
-```
-GET /championship/:id/teams
-
-params url : aucun
-
-résultat : informations détaillées du dernier championnat
-
-{
-   "id": 1,
-   "year": 2000,
-   "name": "Championnat de Poudelard 2000"
-   "teams": [
-       {
-           "id": 1,
-           "name": "Gryffondor 2000",
-           "logo": data,
-           "points": 8
-       },
-       ...
-   ]
-}
-```
-
-**Equipes :**
+### Equipes
 
 ```
 GET teams/:id
@@ -187,7 +203,7 @@ résultat : informations détaillées d'une équipe
 }
 ```
 
-**Clubs :**
+### Clubs
 
 ```
 GET /clubs
@@ -234,7 +250,7 @@ résultat : informations détaillées d'un club
 }
 ```
 
-**Matchs :**
+### Matchs
 
 ```
 GET /matches/:id
@@ -321,7 +337,7 @@ résultat : création d'un événement associé à un match
 }
 ```
 
-**Événement :**
+### Événement
 
 ```
 DELETE /events/:id
