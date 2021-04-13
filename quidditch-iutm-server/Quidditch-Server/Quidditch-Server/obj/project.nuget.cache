@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "6Jr2eTUMXCo0uzQ3jpX9noldp/DdwzNDKfKHsebCfu8j5rSH4KMJFqsbpyN0ELEBKaDGwyu6dL6cSbbo3zLMJQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\junck\\Documents\\AAMetz\\Quidditch\\quidditch-iutm-server\\Quidditch-Server\\Quidditch-Server\\Quidditch-Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\junck\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\junck\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.9.10\\microsoft.visualstudio.azure.containers.tools.targets.1.9.10.nupkg.sha512",
+    "C:\\Users\\junck\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
+    "C:\\Users\\junck\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
