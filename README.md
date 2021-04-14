@@ -51,9 +51,9 @@ event(°id, time, description, type, #match_id, #player_id)
 
 ```
 GET /championships
+GET /championships/last
 GET /championship/:id
 GET /championship/:id/matches
-GET /championship/:id/teams
 GET teams/:id
 GET /clubs
 GET /clubs/:id
@@ -107,6 +107,29 @@ résultat : informations détaillées d'un championnat
 ```
 
 ```
+GET /championship/last
+
+params url : aucun
+
+résultat : informations détaillées du dernier championnat
+
+{
+   "id": 1,
+   "year": 2000,
+   "name": "Championnat de Poudelard 2000"
+   "teams": [
+       {
+           "id": 1,
+           "name": Gryffondor 2000,
+           "logo": data,
+           "points": 8
+       },
+       ...
+   ]
+}
+```
+
+```
 GET /championship/:id/matches
 
 params url :
@@ -135,29 +158,6 @@ résultat : informations sur les matchs d'un championnat
                "name": "Serpentard 2000",
                "score": 12
            }
-       },
-       ...
-   ]
-}
-```
-
-```
-GET /championship/:id/teams
-
-params url : aucun
-
-résultat : informations détaillées du dernier championnat
-
-{
-   "id": 1,
-   "year": 2000,
-   "name": "Championnat de Poudelard 2000"
-   "teams": [
-       {
-           "id": 1,
-           "name": "Gryffondor 2000",
-           "logo": data,
-           "points": 8
        },
        ...
    ]
