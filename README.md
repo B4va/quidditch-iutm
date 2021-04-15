@@ -7,6 +7,15 @@
 Le projet consiste en une API permettant de gérer les résultats des différents championnats de quidditch de l'école de
 Poudelard. Il propose également un client web pour pouvoir accéder et gérer ces informations.
 
+## Exécution
+
+```
+$ docker-compose up --build -d
+```
+
+- L'API est accessible à partir de l'url : `localhost:8080/`
+- Le site web client est accessible à partir de l'url : `localhost:3000/`
+
 ## Conception
 
 ### Architecture générale
