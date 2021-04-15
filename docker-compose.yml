@@ -3,7 +3,9 @@ services:
   postgres:
     container_name: postgres
     restart: on-failure
-    image: postgres:11
+    image: postgres:13
+    volumes:
+      - ./quidditch-iutm-server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     environment:
