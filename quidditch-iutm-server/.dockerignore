@@ -12,7 +12,7 @@
 **/*.dbmdl
 **/*.jfm
 **/azds.yaml
-**/bin
+Quidditch-Server/Quidditch-Server/bin
 **/charts
 **/docker-compose*
 **/Dockerfile*
