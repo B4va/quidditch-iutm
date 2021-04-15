@@ -44,7 +44,7 @@ app.get('/', async (req, res) => await championshipsController.readLastChampions
 // Championships
 app.get('/championships', async (req, res) => await championshipsController.readChampionships(req, res));
 app.get('/championships/:id', async (req, res) => await championshipsController.readChampionship(req, res));
-app.get('/championships/last', async (req, res) => await championshipsController.readLastChampionship(req, res));
+app.get('/last-champ', async (req, res) => await championshipsController.readLastChampionship(req, res));
 app.get('/championships/:id/matches', async (req, res) => await championshipsController.readChampionshipMatches(req, res));
 
 // Teams
