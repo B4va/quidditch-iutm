@@ -1,22 +1,38 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using Quidditch_Server.Models;
+using Quidditch_Server.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Quidditch_Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     public class ChampionshipController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Championship> Get()
+        [Route("api/championships")]
+        public IEnumerable<Championship> GetAll()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 20).Select(index => new Championship("Quidditch Championship ", rng.Next(2020, 2100))).ToArray();
+            return Championship.GetAllChampionships();
+        }
+
+        [HttpGet]
+        [Route("api/championships/last")]
+        public Championship GetLast()
+        {
+            return Championship.GetLast();
+        }
+
+        [HttpGet]
+        [Route("api/championships/{id}")]
+        public Championship GetById(int id)
+        {
+            return Championship.GetById(id);
         }
     }
 }
