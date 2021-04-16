@@ -23,33 +23,16 @@ namespace Quidditch_Server.Models
 
         public static List<Championship> GetAllChampionships()
         {
-            List<Championship> list = new List<Championship>();
+            return DatabaseManager.QueryListResult<Championship>(
+                "SELECT * FROM championship",
+                () => ReaderToChampionshipObject());
+        }
 
-            var connection = DatabaseManager.GetConnection();
-
-            //Opens the connection to the database
-            connection.Open();
-
-            //Defines a query for the connected database
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM championship", connection);
-
-            //Execute the query
-            NpgsqlDataReader reader = command.ExecuteReader();
-
-            //Read result of the query
-            while(reader.Read())
-            {
-                //Convert the result of each column to a C# supported type
-                var id = int.Parse(reader[0].ToString());
-                var year = int.Parse(reader[1].ToString());
-                var name = reader[2].ToString();
-            
-                //Create the Championship object using the data and add it to the list
-                list.Add(new Championship(id, year, name));
-            }
-
-            //return the list of all championships
-            return list;
+        public static Championship GetById(int id)
+        {
+            return DatabaseManager.QuerySingleObjectResult<Championship>(
+                string.Format("SELECT * FROM championship WHERE id = '{0}'", id),
+                () => ReaderToChampionshipObject());
         }
 
         public static Championship GetLast()
@@ -74,19 +57,13 @@ namespace Quidditch_Server.Models
             return lastChampionship;
         }
 
-        public static Championship GetById(int id)
+        private static Championship ReaderToChampionshipObject()
         {
-            List<Championship> championships = GetAllChampionships();
+            var id = int.Parse(DatabaseManager.Reader[0].ToString());
+            var year = int.Parse(DatabaseManager.Reader[1].ToString());
+            var name = DatabaseManager.Reader[2].ToString();
 
-            foreach (Championship c in championships)
-            {
-                if (c.Id == id)
-                {
-                    return c;
-                }
-            }
-
-            return null;
+            return new Championship(id, year, name);
         }
     }
 }

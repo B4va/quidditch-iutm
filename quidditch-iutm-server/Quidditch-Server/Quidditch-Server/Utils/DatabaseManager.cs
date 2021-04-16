@@ -15,27 +15,44 @@ namespace Quidditch_Server.Utils
         private static string PGPassword = "pass";
         private static string PGPort = "6000";
 
+        public static NpgsqlDataReader Reader { get; set; }
+
         /// <summary>
         /// Executes a query on the SQL database and returns an NpgsqlDataReader Object,
         /// which is basically an array containing the results.
         /// </summary>
         /// <param name="query">The SQL Query for the database</param>
-        /// <returns>NpgsqlDataReader Object</returns>
-        public static NpgsqlDataReader Query(string query)
+        public static List<T> QueryListResult<T>(string query, Func<T> function)
         {
-            //Gets the object used to open the connection to the database
-            NpgsqlConnection conn = GetConnection();
+            List<T> list = new List<T>();
 
-            //Opens the connection to the database
-            conn.Open();
+            //Get an instance of the NpgsqlConnection object
+            var connection = GetConnection();
+
+            //Open the connection to the database
+            connection.Open();
 
             //Defines a query for the connected database
-            NpgsqlCommand command = new NpgsqlCommand(query, conn);
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
-            //Execute the query and return the 
-            NpgsqlDataReader reader = command.ExecuteReader();
+            //Execute the query
+            Reader = command.ExecuteReader();
 
-            return reader;
+            //Read result of the query
+            while (Reader.Read())
+            {
+                list.Add(function());
+            }
+
+            //Close connection to the database
+            //connection.Close();
+
+            return list;
+        }
+
+        public static T QuerySingleObjectResult<T>(string query, Func<T> function)
+        {
+            return QueryListResult<T>(query, function).FirstOrDefault();
         }
 
         /// <summary>
