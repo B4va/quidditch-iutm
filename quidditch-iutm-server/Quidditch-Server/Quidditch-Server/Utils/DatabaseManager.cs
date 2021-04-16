@@ -71,7 +71,7 @@ namespace Quidditch_Server.Utils
                     PGDBname,
                     PGPort,
                     PGPassword);
-
+          
             //Creating a object used to open a connection to the database
             NpgsqlConnection conn = new NpgsqlConnection(connString);
 
