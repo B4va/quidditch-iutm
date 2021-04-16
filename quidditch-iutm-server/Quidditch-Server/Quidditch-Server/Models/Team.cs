@@ -27,51 +27,28 @@ namespace Quidditch_Server.Models
 
         public static List<Team> GetAllTeams()
         {
-            List<Team> list = new List<Team>();
-
-            var connection = DatabaseManager.GetConnection();
-
-            //Opens the connection to the database
-            connection.Open();
-
-            //Defines a query for the connected database
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM team", connection);
-
-            //Execute the query
-            NpgsqlDataReader reader = command.ExecuteReader();
-
-            //Read result of the query
-            while (reader.Read())
+            return DatabaseManager.QueryListResult("SELECT * FROM team", () =>
             {
-                //Convert the result of each column to a C# supported type
-                var id = int.Parse(reader[0].ToString());
-                var name = reader[1].ToString();
-                //logo = Int64.Parse(reader[2].ToString()); problème de format string a régler
-                Int64 logo = 0;
-                var championshipId = int.Parse(reader[3].ToString());
-                var clubId = int.Parse(reader[4].ToString());
-
-                //Create the Championship object using the data and add it to the list
-                list.Add(new Team(id, name, logo, championshipId, clubId));
-            }
-
-            //return the list of all championships
-            return list;
+                return ReaderToTeamObject();
+            });
         }
 
         public static Team GetById(int id)
         {
-            List<Team> teams = Team.GetAllTeams();
+            return DatabaseManager.QuerySingleObjectResult<Team>(
+                string.Format("SELECT * FROM team WHERE id = '{0}'", id),
+                () => ReaderToTeamObject());
+        }
 
-            foreach (Team t in teams)
-            {
-                if (t.Id == id)
-                {
-                    return t;
-                }
-            }
+        private static Team ReaderToTeamObject()
+        {
+            var id = int.Parse(DatabaseManager.Reader[0].ToString());
+            var name = DatabaseManager.Reader[1].ToString();
+            Int64 logo = 0; //logo = Int64.Parse(reader[2].ToString()); problème de format string à régler
+            var championshipId = int.Parse(DatabaseManager.Reader[3].ToString());
+            var clubId = int.Parse(DatabaseManager.Reader[4].ToString());
 
-            return null;
+            return new Team(id, name, logo, championshipId, clubId);
         }
     }
 }

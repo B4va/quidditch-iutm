@@ -28,60 +28,30 @@ namespace Quidditch_Server.Models
 
         public static List<Match> GetAllMatches()
         {
-            List<Match> list = new List<Match>();
-
-            var connection = DatabaseManager.GetConnection();
-
-            //Opens the connection to the database
-            connection.Open();
-
-            //Defines a query for the connected database
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM match", connection);
-
-            //Execute the query
-            NpgsqlDataReader reader = command.ExecuteReader();
-
-            //Read result of the query
-            while (reader.Read())
+            return DatabaseManager.QueryListResult<Match>("SELECT * FROM team", () =>
             {
-                //Convert the result of each column to a C# supported type
-                var id = int.Parse(reader[0].ToString());
-                var status = reader[1].ToString();
-                int homeTeamId = int.Parse(reader[2].ToString());
-                int visitorTeamId = int.Parse(reader[3].ToString());
-                var date = reader[4].ToString();
-                var time = reader[5].ToString();
-
-                //Create the Championship object using the data and add it to the list
-                list.Add(new Match(id, status, homeTeamId, visitorTeamId, date, time));
-            }
-
-            //return the list of all championships
-            return list;
+                return ReaderToMatchObject();
+            });
         }
 
         public static Match GetById(int id)
         {
-            List<Match> matches = GetAllMatches();
-
-            foreach (Match m in matches)
-            {
-                if (m.Id == id)
-                {
-                    return m;
-                }
-            }
-
-            return null;
+            return DatabaseManager.QuerySingleObjectResult<Match>(
+                string.Format("SELECT * FROM match WHERE id = '{0}'", id),
+                () => ReaderToMatchObject());
         }
-    }
 
-    public enum MatchStatus
-    {
-        PLANNED = 1,
-        ONGOING = 2,
-        FINISHED = 3,
-        POSTPONED = 4,
-        CANCELED = 5
+        private static Match ReaderToMatchObject()
+        {
+            var id = int.Parse(DatabaseManager.Reader[0].ToString());
+            var status = DatabaseManager.Reader[1].ToString();
+            var test = DatabaseManager.Reader[2];
+            int homeTeamId = int.Parse(DatabaseManager.Reader[2].ToString());
+            int visitorTeamId = int.Parse(DatabaseManager.Reader[3].ToString());
+            var date = DatabaseManager.Reader[4].ToString();
+            var time = DatabaseManager.Reader[5].ToString();
+
+            return new Match(id, status, homeTeamId, visitorTeamId, date, time);
+        }
     }
 }
