@@ -18,21 +18,29 @@ namespace Quidditch_Server.Controllers
         [Route("api/championships")]
         public IEnumerable<Championship> GetAll()
         {
-            return Championship.GetAllChampionships();
+            return new Championship().GetAllChampionships();
         }
 
         [HttpGet]
         [Route("api/championships/last")]
         public Championship GetLast()
         {
-            return Championship.GetLast();
+            Championship lastChampionship = new Championship().GetLast();
+
+            lastChampionship.Teams = new Team().GetTeamsByChampionshipId(lastChampionship.Id);
+
+            return lastChampionship;
         }
 
         [HttpGet]
         [Route("api/championships/{id}")]
         public Championship GetById(int id)
         {
-            return Championship.GetById(id);
+            Championship championship = new Championship().GetById(id);
+
+            championship.Teams = new Team().GetTeamsByChampionshipId(championship.Id);
+
+            return championship;
         }
     }
 }

@@ -20,7 +20,7 @@
     "Quidditch_Server": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/clubs",
+      "launchUrl": "api/teams",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -14,14 +14,14 @@ namespace Quidditch_Server.Controllers
         [Route("api/teams")]
         public IEnumerable<Team> GetAll()
         {
-            return Team.GetAllTeams();
+            return new Team().GetAllTeams();
         }
 
         [HttpGet]
         [Route("api/teams/{id}")]
         public Team GetById(int id)
         {
-            return Team.GetById(id);
+            return new Team().GetById(id);
         }
     }
 }

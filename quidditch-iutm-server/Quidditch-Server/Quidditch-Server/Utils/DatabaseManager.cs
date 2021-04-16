@@ -15,14 +15,20 @@ namespace Quidditch_Server.Utils
         private static string PGPassword = "pass";
         private static string PGPort = "6000";
 
-        public static NpgsqlDataReader Reader { get; set; }
+        public NpgsqlDataReader Reader { get; private set; }
+
+        public DatabaseManager()
+        {
+
+        }
 
         /// <summary>
         /// Executes a query on the SQL database and returns an NpgsqlDataReader Object,
         /// which is basically an array containing the results.
         /// </summary>
         /// <param name="query">The SQL Query for the database</param>
-        public static List<T> QueryListResult<T>(string query, Func<T> function)
+        /// <param name="function">Must return the query result converted to a C# Object</param>
+        public List<T> QueryListResult<T>(string query, Func<T> function)
         {
             List<T> list = new List<T>();
 
@@ -45,12 +51,12 @@ namespace Quidditch_Server.Utils
             }
 
             //Close connection to the database
-            //connection.Close();
+            connection.Close();
 
             return list;
         }
 
-        public static T QuerySingleObjectResult<T>(string query, Func<T> function)
+        public T QuerySingleObjectResult<T>(string query, Func<T> function)
         {
             return QueryListResult<T>(query, function).FirstOrDefault();
         }
@@ -60,7 +66,7 @@ namespace Quidditch_Server.Utils
         /// which can the be used to open a connection instance to the Postgres Database.
         /// </summary>
         /// <returns>NpgsqlConnection Object</returns>
-        public static NpgsqlConnection GetConnection()
+        private NpgsqlConnection GetConnection()
         {
             //Formating the connection string for the database connection
             string connString =

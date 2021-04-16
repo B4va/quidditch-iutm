@@ -14,14 +14,14 @@ namespace Quidditch_Server.Controllers
         [Route("api/clubs")]
         public IEnumerable<Club> GetAll()
         {
-            return Club.GetAllClubs();
+            return new Club().GetAllClubs();
         }
 
         [HttpGet]
         [Route("api/clubs/{id}")]
         public Club GetById(int id)
         {
-            return Club.GetById(id);
+            return new Club().GetById(id);
         }
     }
 }

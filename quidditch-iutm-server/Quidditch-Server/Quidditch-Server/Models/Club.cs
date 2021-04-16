@@ -13,31 +13,40 @@ namespace Quidditch_Server.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
+        private DatabaseManager DBManager;
+
+        public Club()
+        {
+            DBManager = new DatabaseManager();
+        }
+
         public Club(int id, string name)
         {
+            DBManager = new DatabaseManager();
+
             this.Id = id;
             this.Name = name;
         }
 
-        public static List<Club> GetAllClubs()
+        public List<Club> GetAllClubs()
         {
-            return DatabaseManager.QueryListResult<Club>("SELECT * FROM club", () =>
+            return DBManager.QueryListResult<Club>("SELECT * FROM club", () =>
             {
                 return ReaderToClubObject();
             });
         }
 
-        public static Club GetById(int id)
+        public Club GetById(int id)
         {
-            return DatabaseManager.QuerySingleObjectResult<Club>(
+            return DBManager.QuerySingleObjectResult<Club>(
                 string.Format("SELECT * FROM club WHERE id = '{0}'", id),
                 () => ReaderToClubObject());
         }
 
-        private static Club ReaderToClubObject()
+        private Club ReaderToClubObject()
         {
-            var id = int.Parse(DatabaseManager.Reader[0].ToString());
-            var name = DatabaseManager.Reader[1].ToString();
+            var id = int.Parse(DBManager.Reader[0].ToString());
+            var name = DBManager.Reader[1].ToString();
 
             return new Club(id, name);
         }
