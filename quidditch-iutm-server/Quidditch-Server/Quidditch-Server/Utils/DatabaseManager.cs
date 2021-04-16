@@ -1,19 +1,15 @@
 ﻿using Npgsql;
-using Quidditch_Server.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Quidditch_Server.Utils
 {
     public class DatabaseManager
     {
-        private static string Host = "127.0.0.1";
+        private static string Host = Environment.GetEnvironmentVariable("DB_SERVER") ?? "127.0.0.1";
         private static string PGUser = "user";
         private static string PGDBname = "db";
         private static string PGPassword = "pass";
-        private static string PGPort = "6000";
+        private static string PGPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "6000";
 
         /// <summary>
         /// Executes a query on the SQL database and returns an NpgsqlDataReader Object,
@@ -54,7 +50,7 @@ namespace Quidditch_Server.Utils
                     PGDBname,
                     PGPort,
                     PGPassword);
-
+            Console.WriteLine(connString);
             //Creating a object used to open a connection to the database
             NpgsqlConnection conn = new NpgsqlConnection(connString);
 
