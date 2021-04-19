@@ -97,7 +97,35 @@ const readChampionship = async (req, res) => {
 }
 
 const readChampionshipMatches = async (req, res) => {
-
+    const id = req.params.id;
+    // todo : données de test à remplacer
+    // const championshipMatches = await axios.get(`http://localhost/championships/${id}/matches`);
+    // todo : créer les énumérés + prendre en compte les différentes situations de matchs
+    const championshipMatches = {
+        id: 1,
+        year: 2000,
+        name: "Championnat de Poudelard 2000",
+        matches: [
+            {
+                id: 1,
+                type: 1,
+                date: "01-01-2000 18:00",
+                status: 1,
+                goldenSnitch: false,
+                homeTeam: {
+                    id: 1,
+                    name: "Gryffondor 2000",
+                    score: 18
+                },
+                visitorTeam: {
+                    id: 1,
+                    name: "Serpentard 2000",
+                    score: 12
+                }
+            },
+            ...
+        ]
+    }
 }
 
 const renderCHampionship = (res, championship) => {
