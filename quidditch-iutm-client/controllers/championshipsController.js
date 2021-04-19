@@ -1,4 +1,5 @@
 const axios = require('axios');
+const enums = require('../enums');
 
 const readChampionships = async (req, res) => {
     // todo : données de test à remplacer
@@ -100,7 +101,6 @@ const readChampionshipMatches = async (req, res) => {
     const id = req.params.id;
     // todo : données de test à remplacer
     // const championshipMatches = await axios.get(`http://localhost/championships/${id}/matches`);
-    // todo : créer les énumérés + prendre en compte les différentes situations de matchs : status, score, vif d'or
     const championshipMatches = {
         id: 1,
         year: 2000,
@@ -126,7 +126,7 @@ const readChampionshipMatches = async (req, res) => {
             // terminé, vif d'or domicile
             {
                 id: 2,
-                date: "01-01-2000 18:00",
+                date: "01-01-1999 18:00",
                 status: 2,
                 goldenSnitch: 1,
                 homeTeam: {
@@ -143,7 +143,7 @@ const readChampionshipMatches = async (req, res) => {
             // terminé, vif d'or extérieur
             {
                 id: 3,
-                date: "01-01-2000 18:00",
+                date: "01-01-1998 18:00",
                 status: 2,
                 goldenSnitch: 2,
                 homeTeam: {
@@ -160,7 +160,7 @@ const readChampionshipMatches = async (req, res) => {
             // programmé
             {
                 id: 4,
-                date: "01-01-2000 18:00",
+                date: "01-01-1997 18:00",
                 status: 0,
                 goldenSnitch: 0,
                 homeTeam: {
@@ -177,7 +177,7 @@ const readChampionshipMatches = async (req, res) => {
             // en cours
             {
                 id: 5,
-                date: "01-01-2000 18:00",
+                date: "01-01-1996 18:00",
                 status: 1,
                 goldenSnitch: 0,
                 homeTeam: {
@@ -193,15 +193,44 @@ const readChampionshipMatches = async (req, res) => {
             },
         ]
     }
+    championshipMatches.matches.forEach(m => processMatchResult(m));
+    res.render('matches', {
+        title: `${championshipMatches.name} - Matchs`,
+        championshipName: championshipMatches.name,
+        matches: championshipMatches.matches.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse(),
+        id: championshipMatches.id,
+        STATUS: enums.MATCH_STATUS,
+        SNITCH: enums.GOLDEN_SNITCH
+    });
 }
 
 const renderCHampionship = (res, championship) => {
     res.render('championship', {
-        title: 'Championnat en cours',
+        title: championship.name,
         championshipName: championship.name,
         teams: championship.teams.sort((a, b) => a.points - b.points).reverse(),
         id: championship.id
     });
+}
+
+const processMatchResult = match => {
+    if (match.homeTeam.score > match.visitorTeam.score) {
+        match.homeTeam.win = true;
+        match.visitorTeam.win = false;
+    } else if (match.homeTeam.score < match.visitorTeam.score) {
+        match.homeTeam.win = false;
+        match.visitorTeam.win = true;
+    } else {
+        match.homeTeam.win = false;
+        match.visitorTeam.win = false;
+    }
+    if (match.goldenSnitch === enums.GOLDEN_SNITCH.HOME) {
+        match.homeTeam.win = true;
+        match.visitorTeam.win = false;
+    } else if (match.goldenSnitch === enums.GOLDEN_SNITCH.VISITOR) {
+        match.homeTeam.win = false;
+        match.visitorTeam.win = true;
+    }
 }
 
 module.exports = {
