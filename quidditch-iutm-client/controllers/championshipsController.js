@@ -100,18 +100,18 @@ const readChampionshipMatches = async (req, res) => {
     const id = req.params.id;
     // todo : données de test à remplacer
     // const championshipMatches = await axios.get(`http://localhost/championships/${id}/matches`);
-    // todo : créer les énumérés + prendre en compte les différentes situations de matchs
+    // todo : créer les énumérés + prendre en compte les différentes situations de matchs : status, score, vif d'or
     const championshipMatches = {
         id: 1,
         year: 2000,
         name: "Championnat de Poudelard 2000",
         matches: [
+            // terminé, au score
             {
                 id: 1,
-                type: 1,
                 date: "01-01-2000 18:00",
-                status: 1,
-                goldenSnitch: false,
+                status: 2,
+                goldenSnitch: 0,
                 homeTeam: {
                     id: 1,
                     name: "Gryffondor 2000",
@@ -123,7 +123,74 @@ const readChampionshipMatches = async (req, res) => {
                     score: 12
                 }
             },
-            ...
+            // terminé, vif d'or domicile
+            {
+                id: 2,
+                date: "01-01-2000 18:00",
+                status: 2,
+                goldenSnitch: 1,
+                homeTeam: {
+                    id: 1,
+                    name: "Gryffondor 2000",
+                    score: 18
+                },
+                visitorTeam: {
+                    id: 1,
+                    name: "Serpentard 2000",
+                    score: 12
+                }
+            },
+            // terminé, vif d'or extérieur
+            {
+                id: 3,
+                date: "01-01-2000 18:00",
+                status: 2,
+                goldenSnitch: 2,
+                homeTeam: {
+                    id: 1,
+                    name: "Gryffondor 2000",
+                    score: 18
+                },
+                visitorTeam: {
+                    id: 1,
+                    name: "Serpentard 2000",
+                    score: 12
+                }
+            },
+            // programmé
+            {
+                id: 4,
+                date: "01-01-2000 18:00",
+                status: 0,
+                goldenSnitch: 0,
+                homeTeam: {
+                    id: 1,
+                    name: "Gryffondor 2000",
+                    score: 0
+                },
+                visitorTeam: {
+                    id: 1,
+                    name: "Serpentard 2000",
+                    score: 0
+                }
+            },
+            // en cours
+            {
+                id: 5,
+                date: "01-01-2000 18:00",
+                status: 1,
+                goldenSnitch: 0,
+                homeTeam: {
+                    id: 1,
+                    name: "Gryffondor 2000",
+                    score: 15
+                },
+                visitorTeam: {
+                    id: 1,
+                    name: "Serpentard 2000",
+                    score: 3
+                }
+            },
         ]
     }
 }
