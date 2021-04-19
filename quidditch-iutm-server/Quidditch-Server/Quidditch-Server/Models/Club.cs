@@ -21,47 +21,25 @@ namespace Quidditch_Server.Models
 
         public static List<Club> GetAllClubs()
         {
-            List<Club> list = new List<Club>();
-
-            var connection = DatabaseManager.GetConnection();
-
-            //Opens the connection to the database
-            connection.Open();
-
-            //Defines a query for the connected database
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM club", connection);
-
-            //Execute the query
-            NpgsqlDataReader reader = command.ExecuteReader();
-
-            //Read result of the query
-            while (reader.Read())
+            return DatabaseManager.QueryListResult<Club>("SELECT * FROM club", () =>
             {
-                //Convert the result of each column to a C# supported type
-                var id = int.Parse(reader[0].ToString());
-                var name = reader[1].ToString();
-
-                //Create the Championship object using the data and add it to the list
-                list.Add(new Club(id, name));
-            }
-
-            //return the list of all championships
-            return list;
+                return ReaderToClubObject();
+            });
         }
 
         public static Club GetById(int id)
         {
-            List<Club> clubs = GetAllClubs();
+            return DatabaseManager.QuerySingleObjectResult<Club>(
+                string.Format("SELECT * FROM club WHERE id = '{0}'", id),
+                () => ReaderToClubObject());
+        }
 
-            foreach (Club c in clubs)
-            {
-                if (c.Id == id)
-                {
-                    return c;
-                }
-            }
+        private static Club ReaderToClubObject()
+        {
+            var id = int.Parse(DatabaseManager.Reader[0].ToString());
+            var name = DatabaseManager.Reader[1].ToString();
 
-            return null;
+            return new Club(id, name);
         }
     }
 }
