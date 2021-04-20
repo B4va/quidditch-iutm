@@ -1,6 +1,6 @@
 const readClubs = async (req, res) => {
     // todo : données de test à remplacer
-    // const championships = await axios.get('http://localhost/championships');
+    // const clubs = await axios.get('http://localhost/clubs');
     const clubs = [
         {
             "id": 1,
@@ -37,11 +37,6 @@ const readClubs = async (req, res) => {
     });
 }
 
-const readClub = async (req, res) => {
-
-}
-
 module.exports = {
-    readClubs,
-    readClub
+    readClubs
 }

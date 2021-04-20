@@ -52,7 +52,6 @@ app.get('/teams/:id', async (req, res) => await teamsController.readTeam(req, re
 
 // Clubs
 app.get('/clubs', async (req, res) => await clubsController.readClubs(req, res));
-app.get('/clubs/:id', async (req, res) => await clubsController.readClub(req, res));
 
 // Matches
 app.get('/matches/:id', async (req, res) => await matchesController.readMatch(req, res));
