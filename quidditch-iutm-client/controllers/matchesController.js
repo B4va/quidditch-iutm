@@ -3,6 +3,7 @@ const enums = require('../enums');
 
 const readMatch = async (req, res) => {
     const id = req.params.id;
+    // todo : données de test à remplacer
     // const match = await axios.get(`http://localhost/matches/${id}`);
     const match = {
         id: 1,
@@ -68,6 +69,7 @@ const readMatch = async (req, res) => {
 
 const updateMatch = async (req, res) => {
     const id = req.params.id;
+    // todo : données de test à remplacer
     // const status = await axios.patch(`http://localhost/matches/${id}`);
     res.redirect(`/matches/${id}`);
 }
@@ -83,6 +85,7 @@ const createMatchEvent = async (req, res) => {
 const deleteMatchEvent = async (req, res) => {
     const matchId = req.params.matchId;
     const eventId = req.params.eventId;
+    // todo : données de test à remplacer
     // const status = await axios.delete(`http://localhost/events/${eventId}`);
     res.redirect(`/matches/${matchId}`);
 }
