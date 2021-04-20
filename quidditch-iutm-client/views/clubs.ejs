@@ -1,5 +1,20 @@
 <% layout('./_layout') -%>
 
-<div>
-    <p>Test</p>
-</div>
+<h1>Clubs et équipes</h1>
+
+<table class="table mt-4">
+    <tbody>
+    <% for (let i = 0 ; i < clubs.length ; i++) { %>
+        <tr>
+            <th scope="row"><%= clubs[i].name %></th>
+            <th scope="row">
+                <ul>
+                    <% for (let j = 0 ; j < clubs[i].teams.length ; j++) { %>
+                    <li><a href="teams/<%= clubs[i].teams[j].id %>"><%= clubs[i].teams[j].name %></a></li>
+                    <% } %>
+                </ul>
+            </th>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
