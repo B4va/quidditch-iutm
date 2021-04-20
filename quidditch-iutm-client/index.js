@@ -22,6 +22,7 @@ app.use((req, res, next) => {
     if (req.path !== '/favicon.ico') {
         console.log('----------------------------');
         console.log('Route : ', req.path);
+        console.log('Method: ', req.method);
         console.log('Params :', req.params);
         console.log('Query :', req.query);
         console.log('Body :', req.body);

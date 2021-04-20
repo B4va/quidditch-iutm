@@ -68,11 +68,11 @@
         </div>
     </div>
 <% } %>
+<% if (match.status !== STATUS.FINISHED) { %>
 <div class="text-center m-3 mt-4">
     <a href="/matches/<%= match.id %>/event" class="btn btn-sm btn-outline-primary">Créer un événement</a>
 </div>
-<% if (match.status !== STATUS.FINISHED) { %>
-<form class="text-center mt-2" method="POST" action="/match/<%= match.id %>">
+<form class="text-center mt-2" method="POST" action="/matches/<%= match.id %>">
     <button type="submit" class="btn btn-sm btn-outline-danger">
         <%= match.status === STATUS.IN_PROGRESS ? 'Arrêter le match' : 'Lancer le match' %>
     </button>
