@@ -6,7 +6,6 @@ const championshipsController = require('./controllers/championshipsController')
 const teamsController = require('./controllers/teamsController');
 const clubsController = require('./controllers/clubsController');
 const matchesController = require('./controllers/matchesController');
-const eventsController = require('./controllers/eventsController');
 
 /**
  * Configuration générale.
@@ -60,6 +59,4 @@ app.get('/matches/:id', async (req, res) => await matchesController.readMatch(re
 app.post('/matches/:id', async (req, res) => await matchesController.updateMatch(req, res));
 app.get('/matches/:id/event', async (req, res) => await matchesController.newMatchEvent(req, res));
 app.post('/matches/:id/event', async (req, res) => await matchesController.createMatchEvent(req, res));
-
-// Events
-app.get('/events/:id/delete', async (req, res) => await eventsController.deleteEvent(req, res));
+app.get('/matches/:matchId/deleteEvent/:eventId', async (req, res) => await matchesController.deleteMatchEvent(req, res));

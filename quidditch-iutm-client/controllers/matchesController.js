@@ -80,6 +80,13 @@ const createMatchEvent = async (req, res) => {
 
 }
 
+const deleteMatchEvent = async (req, res) => {
+    const matchId = req.params.matchId;
+    const eventId = req.params.eventId;
+    // const status = await axios.delete(`http://localhost/events/${eventId}`);
+    res.redirect(`/matches/${matchId}`);
+}
+
 const processMatchResult = match => {
     if (match.scoreHome > match.scoreVisitor) {
         match.home.win = true;
@@ -104,5 +111,6 @@ module.exports = {
     readMatch,
     updateMatch,
     createMatchEvent,
-    newMatchEvent
+    newMatchEvent,
+    deleteMatchEvent
 }
