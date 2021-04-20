@@ -8,14 +8,14 @@
 <% for (let i = 0 ; i < matches.length ; i++) { %>
 <div class="card mt-3">
     <div class="row no-gutters align-items-center">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="card-body text-center">
                 <a href="/teams/<%= matches[i].homeTeam.id %>">
                     <p class="card-text <%= matches[i].homeTeam.win ? 'font-weight-bold' : '' %>"><%= matches[i].homeTeam.name %></p>
                 </a>
             </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <div class="card-body text-center">
                 <% if (matches[i].status === STATUS.SCHEDULED) { %>
                 <p class="scheduled-date my-1 font-weight-bold"><%= matches[i].date %></p>
@@ -34,14 +34,14 @@
                 <% } %>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="card-body text-center">
                 <a href="/teams/<%= matches[i].visitorTeam.id %>">
                     <p class="card-text <%= matches[i].visitorTeam.win ? 'font-weight-bold' : '' %>"><%= matches[i].visitorTeam.name %></p>
                 </a>
             </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <div class="card-body text-center">
                 <a href="/matches/<%= matches[i].id %>" class="btn btn-sm btn-primary">Détails</a>
             </div>

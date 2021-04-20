@@ -56,7 +56,7 @@ const readLastChampionship = async (req, res) => {
             }
         ]
     };
-    renderCHampionship(res, championship);
+    renderChampionship(res, championship);
 }
 
 const readChampionship = async (req, res) => {
@@ -94,7 +94,7 @@ const readChampionship = async (req, res) => {
             }
         ]
     };
-    renderCHampionship(res, championship);
+    renderChampionship(res, championship);
 }
 
 const readChampionshipMatches = async (req, res) => {
@@ -204,7 +204,7 @@ const readChampionshipMatches = async (req, res) => {
     });
 }
 
-const renderCHampionship = (res, championship) => {
+const renderChampionship = (res, championship) => {
     res.render('championship', {
         title: championship.name,
         championshipName: championship.name,

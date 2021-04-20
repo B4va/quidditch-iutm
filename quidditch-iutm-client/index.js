@@ -57,7 +57,8 @@ app.get('/clubs/:id', async (req, res) => await clubsController.readClub(req, re
 // Matches
 app.get('/matches/:id', async (req, res) => await matchesController.readMatch(req, res));
 app.post('/matches/:id', async (req, res) => await matchesController.updateMatch(req, res));
+app.get('/matches/:id/event', async (req, res) => await matchesController.newMatchEvent(req, res));
 app.post('/matches/:id/event', async (req, res) => await matchesController.createMatchEvent(req, res));
 
 // Events
-app.post('/events/:id', async (req, res) => await eventsController.deleteEvent(req, res));
+app.get('/events/:id/delete', async (req, res) => await eventsController.deleteEvent(req, res));

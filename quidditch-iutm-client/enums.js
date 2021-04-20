@@ -10,7 +10,15 @@ const GOLDEN_SNITCH = {
     VISITOR: 2
 }
 
+const EVENT_TYPE = {
+    GOAL: 0,
+    GOLDEN_SNITCH: 1,
+    INJURY: 2,
+    FAULT: 3
+}
+
 module.exports = {
     MATCH_STATUS,
-    GOLDEN_SNITCH
+    GOLDEN_SNITCH,
+    EVENT_TYPE
 }
