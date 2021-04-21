@@ -75,17 +75,46 @@ const updateMatch = async (req, res) => {
 }
 
 const newMatchEvent = async (req, res) => {
-
+    const matchId = req.params.id;
+    // const players = const status = await axios.get(`http://localhost/matches/${id}/players`)
+    const players = [
+        {
+            id: 1,
+            name: "Harry Potter",
+            number: 8
+        },
+        {
+            id: 2,
+            name: "Drago Malfoy",
+            number: 10
+        },
+        {
+            id: 3,
+            name: "Hermionne Granger",
+            number: 3
+        }
+    ]
+    res.render('newEvent', {
+        title: `Nouveau fait de jeu`,
+        players: players,
+        matchId: matchId,
+        TYPE: enums.EVENT_TYPE,
+        SNITCH: enums.GOLDEN_SNITCH
+    });
 }
 
 const createMatchEvent = async (req, res) => {
-
+    const data = req.body;
+    data.matchId = req.params.id;
+    // todo : requête de test à remplacer
+    // const status = await axios.post(`http://localhost/matches/${data.matchId}/event`, JSON.parse(data));
+    res.redirect(`/matches/${data.matchId}`);
 }
 
 const deleteMatchEvent = async (req, res) => {
     const matchId = req.params.matchId;
     const eventId = req.params.eventId;
-    // todo : données de test à remplacer
+    // todo : requête de test à remplacer
     // const status = await axios.delete(`http://localhost/events/${eventId}`);
     res.redirect(`/matches/${matchId}`);
 }

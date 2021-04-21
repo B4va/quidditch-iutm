@@ -15,16 +15,16 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 app.engine('ejs', ejsLocals);
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
     next();
     if (req.path !== '/favicon.ico') {
         console.log('----------------------------');
         console.log('Route : ', req.path);
-        console.log('Method: ', req.method);
-        console.log('Params :', req.params);
-        console.log('Query :', req.query);
-        console.log('Body :', req.body);
+        console.log('Method : ', req.method);
+        console.log('Params : ', req.params);
+        console.log('Body : ', req.body);
         console.log('----------------------------');
     }
 });
