@@ -16,10 +16,10 @@ $ docker-compose up --build -d
 - L'API est accessible à partir de l'url : `localhost:8000/api`
 - Le site web client est accessible à partir de l'url : `localhost:3000/`
 - La base de données Postgres est accessible via les données de connexion suivantes :
-    - URL : localhost:6000
-    - Utilisateur : user
-    - Mot de passe : pass
-    - Base de données : db
+    - URL : `localhost:6000`
+    - Utilisateur : `user`
+    - Mot de passe : `pass`
+    - Base de données : `db`
 
 ## Conception
 
