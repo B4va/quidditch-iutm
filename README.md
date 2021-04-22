@@ -13,8 +13,13 @@ Poudelard. Il propose également un client web pour pouvoir accéder et gérer c
 $ docker-compose up --build -d
 ```
 
-- L'API est accessible à partir de l'url : `localhost:8080/`
+- L'API est accessible à partir de l'url : `localhost:8000/api`
 - Le site web client est accessible à partir de l'url : `localhost:3000/`
+- La base de données Postgres est accessible via les données de connexion suivantes :
+    - URL : localhost:6000
+    - Utilisateur : user
+    - Mot de passe : pass
+    - Base de données : db
 
 ## Conception
 
@@ -107,7 +112,7 @@ résultat : informations détaillées d'un championnat
        {
            "id": 1,
            "name": Gryffondor 2000,
-           "logo": data,
+           "logo": null,
            "points": 8
        },
        ...
@@ -129,8 +134,8 @@ résultat : informations détaillées du dernier championnat
    "teams": [
        {
            "id": 1,
-           "name": Gryffondor 2000,
-           "logo": data,
+           "name": "Gryffondor 2000",
+           "logo": null,
            "points": 8
        },
        ...
@@ -156,7 +161,7 @@ résultat : informations sur les matchs d'un championnat
            "type": 1,
            "date": "01-01-2000 18:00",
            "status": 1,
-           "goldenSnitch": false,
+           "goldenSnitch": 0,
            "homeTeam": {
                "id": 1,
                "name": "Gryffondor 2000",
@@ -186,7 +191,7 @@ résultat : informations détaillées d'une équipe
 {
    "id": 1,
    "name": "Gryffondor 2000",
-   "logo": data,
+   "logo": null,
    "club": {
        "id": 1,
        "nom": "Gryffondor"
@@ -205,7 +210,7 @@ résultat : informations détaillées d'une équipe
            },
            "scoreHome": 1,
            "scoreVisitor": 2,
-           "goldenSnitch": true
+           "goldenSnitch": 1
        },
        ...
    ]
@@ -273,20 +278,20 @@ résultat : informations détaillées d'un match
     "id": 1,
     "status": 1,
     "date": "01-01-2000",
-    "time": "16:00"
+    "time": 16,
     "home": {
        "id": 1,
        "name": "Griffondor",
-       "logo": data
+       "logo": null
     },
     "visitor": {
        "id": 4,
        "name": "Serpentard",
-       "logo": data
+       "logo": null
     },
     "scoreHome": 1,
     "scoreVisitor": 2,
-    "goldenSnitch": true
+    "goldenSnitch": 1,
     "events": [
         {
             "id": 1,
@@ -315,6 +320,34 @@ résultat : lancement d'un match si pas déjà commencé ; arrêt si match en co
     "id": 1,
     "status": 1
 }
+```
+
+```
+GET /matches/:id/players
+
+params url :
+    - id : identifiant du match
+
+résultat : joueurs au cours d'un match, à partir des effectifs des clubs
+
+[
+    {
+        "id": 1,
+        "name": "Harry Potter",
+        "number": 8
+    },
+    {
+        "id": 2,
+        "name": "Drago Malfoy",
+        "number": 10
+    },
+    {
+        "id": 3,
+        "name": "Hermionne Granger",
+        "number": 3
+    }
+]
+
 ```
 
 ```
@@ -360,3 +393,18 @@ résultat : suppression d'un événement
     "success": true
 }
 ```
+
+## Routes application client
+
+- `GET /` : accueil, consultation du championnat en cours
+- `GET /championships` : consultation de la liste des championnat
+- `GET /championships/:id` : consultation d'un championnat
+- `GET /last-champ` : consultation du championnat en cours
+- `GET /championships/:id/matches` : consultation de la liste des matchs associés à un championnat
+- `GET /teams/:id` : consultation des matches associés à une équipe
+- `GET /clubs` : consultation de la liste des clubs
+- `GET /matches/:id` : consultation d'un match et des faits de jeu associés
+- `GET /matches/:matchId/deleteEvent/:eventId` : suppression d'un fait de jeu, à partir de la consutation d'un match ; redirige vers la page de consultation du match
+- `GET /matches/:id/event` : formulaire de création d'un fait de jeu pour le match consulté
+- `POST /matches/:id/event` : création d'un fait de jeu à partir du formulaire de création ; redirige vers la page de consultation du match
+- `POST /matches/:id` : mise à jour du statut du match (status terminé si match commencé ; statut commencé si match programmé, action indisponible si match terminé) ; redirige vers la page de consultation du match
