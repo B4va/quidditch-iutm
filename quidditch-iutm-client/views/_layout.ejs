@@ -6,10 +6,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        html, body, #main {
+        html, body {
+            height: 100%;
+        }
+        #main {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            min-height: 70%;
+            position: relative;
         }
         #head-line, #foot-line {
             height: 25px;
@@ -32,6 +36,12 @@
                 <ul class="navbar-nav mt-3 mt-lg-0">
                     <li class="nav-item mx-lg-3">
                         <a class="nav-link text-secondary" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item mx-lg-3">
+                        <a class="nav-link text-secondary" href="/clubs">Clubs</a>
+                    </li>
+                    <li class="nav-item mx-lg-3">
+                        <a class="nav-link text-secondary" href="/championships">Championnats</a>
                     </li>
                 </ul>
             </div>

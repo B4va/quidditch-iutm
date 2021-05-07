@@ -1,5 +1,51 @@
 <% layout('./_layout') -%>
 
-<div>
-    <p>Test</p>
+<h1 class="text-center mb-4 mt-4"><%= championshipName %></h1>
+<div class="text-center mb-4">
+    <a href="/championships/<%= id %>" class="btn btn-outline-primary">Classement</a>
 </div>
+
+<% for (let i = 0 ; i < matches.length ; i++) { %>
+<div class="card mt-3">
+    <div class="row no-gutters align-items-center">
+        <div class="col-sm-3">
+            <div class="card-body text-center">
+                <a href="/teams/<%= matches[i].homeTeam.id %>">
+                    <p class="card-text <%= matches[i].homeTeam.win ? 'font-weight-bold' : '' %>"><%= matches[i].homeTeam.name %></p>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card-body text-center">
+                <% if (matches[i].status === STATUS.SCHEDULED) { %>
+                <p class="scheduled-date my-1 font-weight-bold"><%= matches[i].date %></p>
+                <% } else { %>
+                <p class="status my-1 font-weight-bold"><%= matches[i].status === STATUS.IN_PROGRESS ? 'En cours' : 'Terminé' %></p>
+                <p class="score my-1 h3">
+                    <span class="<%= matches[i].homeTeam.win ? 'font-weight-bold' : '' %>">
+                        <%= matches[i].homeTeam.score %> <%= matches[i].goldenSnitch === SNITCH.HOME ? '(V)' : ''%>
+                    </span>
+                     -
+                    <span class="<%= matches[i].visitorTeam.win ? 'font-weight-bold' : '' %>">
+                        <%= matches[i].visitorTeam.score %> <%= matches[i].goldenSnitch === SNITCH.VISITOR ? '(V)' : ''%>
+                    </span>
+                </p>
+                <p class="date my-1"><%= matches[i].date %></p>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card-body text-center">
+                <a href="/teams/<%= matches[i].visitorTeam.id %>">
+                    <p class="card-text <%= matches[i].visitorTeam.win ? 'font-weight-bold' : '' %>"><%= matches[i].visitorTeam.name %></p>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card-body text-center">
+                <a href="/matches/<%= matches[i].id %>" class="btn btn-sm btn-primary">Détails</a>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>

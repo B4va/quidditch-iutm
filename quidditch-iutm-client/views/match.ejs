@@ -1,5 +1,80 @@
 <% layout('./_layout') -%>
 
-<div>
-    <p>Test</p>
+<div class="card mt-3 col-sm-10 offset-1">
+    <div class="row no-gutters align-items-center">
+        <div class="col-sm-4">
+            <div class="card-body text-center">
+                <a href="/teams/<%= match.home.id %>">
+                    <p class="card-text <%= match.home.win ? 'font-weight-bold' : '' %>"><%= match.home.name %></p>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card-body text-center">
+                <% if (match.status === STATUS.SCHEDULED) { %>
+                    <p class="scheduled-date my-1 font-weight-bold"><%= match.date %></p>
+                <% } else { %>
+                    <p class="status my-1 font-weight-bold"><%= match.status === STATUS.IN_PROGRESS ? 'En cours' : 'Terminé' %></p>
+                    <p class="score my-1 h3">
+                    <span class="<%= match.home.win ? 'font-weight-bold' : '' %>">
+                        <%= match.scoreHome %> <%= match.goldenSnitch === SNITCH.HOME ? '(V)' : ''%>
+                    </span>
+                        -
+                        <span class="<%= match.visitor.win ? 'font-weight-bold' : '' %>">
+                        <%= match.scoreVisitor %> <%= match.goldenSnitch === SNITCH.VISITOR ? '(V)' : ''%>
+                    </span>
+                    </p>
+                    <p class="date my-1"><%= match.date %></p>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card-body text-center">
+                <a href="/teams/<%= match.visitor.id %>">
+                    <p class="card-text <%= match.visitor.win ? 'font-weight-bold' : '' %>"><%= match.visitor.name %></p>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+<% for (let i = 0 ; i < match.events.length ; i++) { %>
+    <div class="card mt-3 col-sm-10 offset-1">
+        <div class="row no-gutters align-items-center">
+            <div class="col-sm-3">
+                <div class="card-body text-center">
+                    <p class="h1 <%= match.events[i].type === TYPE.GOAL ? 'font-weight-bold' : '' %>"><%= match.events[i].time %>'</p>
+                    <% if (match.events[i].type === TYPE.GOLDEN_SNITCH) { %>
+                    <p class="m-1">VIF D'ORF</p>
+                    <% } else if (match.events[i].type === TYPE.FAULT) { %>
+                    <p class="m-1">FAUTE</p>
+                    <% } else if (match.events[i].type === TYPE.INJURY) { %>
+                    <p class="m-1">BLESSURE</p>
+                    <% } else if (match.events[i].type === TYPE.GOAL) { %>
+                    <p class="m-1">SCORE</p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="card-body">
+                    <p class="m-1 font-weight-bold"><%= match.events[i].player.name %> (<%= match.events[i].player.number %>)</p>
+                    <p class="m-1"><%= match.events[i].description %></p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card-body text-center">
+                    <a href="/matches/<%= match.id %>/deleteEvent/<%= match.events[i].id %>" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+<% if (match.status !== STATUS.FINISHED) { %>
+<div class="text-center m-3 mt-4">
+    <a href="/matches/<%= match.id %>/event" class="btn btn-sm btn-outline-primary">Créer un événement</a>
+</div>
+<form class="text-center mt-2" method="POST" action="/matches/<%= match.id %>">
+    <button type="submit" class="btn btn-sm btn-outline-danger">
+        <%= match.status === STATUS.IN_PROGRESS ? 'Arrêter le match' : 'Lancer le match' %>
+    </button>
+</form>
+<% } %>

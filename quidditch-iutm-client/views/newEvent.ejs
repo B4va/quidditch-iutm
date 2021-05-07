@@ -1,0 +1,52 @@
+<% layout('./_layout') -%>
+
+<div class="col-8 offset-2">
+    <form method="POST" action="/matches/<%= matchId %>/event">
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" id="type" name="type">
+                <option value="<%= TYPE.GOAL %>">Score</option>
+                <option value="<%= TYPE.FAULT %>">Faute</option>
+                <option value="<%= TYPE.INJURY %>">Blessure</option>
+                <option value="<%= TYPE.GOLDEN_SNITCH %>" id="selectSnitch">Vif d'or</option>
+            </select>
+        </div>
+        <div class="form-group" id="snitch" style="display: none">
+            <label for="type">Equipe</label>
+            <select class="form-control" id="type" name="team">
+                <option value="" disabled selected>Equipe - vif d'or</option>
+                <option value="<%= SNITCH.HOME %>">Domicile</option>
+                <option value="<%= SNITCH.VISITOR %>">Visiteur</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="player">Joueur</label>
+            <select class="form-control" id="player" name="playerId">
+                <% for (let i = 0 ; i < players.length ; i++) { %>
+                <option value="<%= players[i].id %>"><%= players[i].number %> - <%= players[i].name %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="description" name="description">
+        </div>
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary">Confirmer</button>
+            <a href="/matches/<%= matchId %>" class="btn btn-outline-secondary ml-3">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const div = document.querySelector('#snitch');
+    const select = document.querySelector('#type');
+    console.log(select.selectedIndex);
+    select.onchange = () => {
+        if (select.selectedIndex === 3) {
+            div.style.display = 'block';
+        } else {
+            div.style.display = 'none';
+        }
+    }
+</script>

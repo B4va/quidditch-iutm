@@ -24,7 +24,6 @@ namespace Quidditch_Server.Models
         public Championship(int id, int year, string name)
         {
             DBManager = new DatabaseManager();
-
             this.Id = id;
             this.Year = year;
             this.Name = name;
