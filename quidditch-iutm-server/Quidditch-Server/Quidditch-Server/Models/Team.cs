@@ -14,7 +14,8 @@ namespace Quidditch_Server.Models
         public string Name { get; set; }
         public Int64 Logo { get; set; }
         public Championship Championship { get; set; }
-        public Club Club { get; set; }
+        public Club Club { get; set; } 
+        public List<Match> Matches { get; set; }
 
         private DatabaseManager DBManager;
 
