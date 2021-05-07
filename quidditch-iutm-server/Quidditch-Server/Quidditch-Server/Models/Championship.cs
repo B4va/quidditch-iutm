@@ -12,56 +12,61 @@ namespace Quidditch_Server.Models
         public int Id { get; set; }
         public int Year { get; set; }
         public string Name { get; set; }
+        public List<Team> Teams { get; set; }
 
+        private DatabaseManager DBManager;
+        
+        public Championship()
+        {
+            DBManager = new DatabaseManager();
+        }
 
         public Championship(int id, int year, string name)
         {
+            DBManager = new DatabaseManager();
             this.Id = id;
             this.Year = year;
             this.Name = name;
         }
 
-        public static List<Championship> GetAllChampionships()
+        public List<Championship> GetAllChampionships()
         {
-            return DatabaseManager.QueryListResult<Championship>(
+            return DBManager.QueryListResult<Championship>(
                 "SELECT * FROM championship",
                 () => ReaderToChampionshipObject());
         }
 
-        public static Championship GetById(int id)
+        public Championship GetById(int id)
         {
-            return DatabaseManager.QuerySingleObjectResult<Championship>(
-                string.Format("SELECT * FROM championship WHERE id = '{0}'", id),
+            return DBManager.QuerySingleObjectResult<Championship>(
+                string.Format("SELECT * " +
+                              "FROM championship " +
+                              "WHERE id = '{0}'",
+                              id),
                 () => ReaderToChampionshipObject());
         }
 
-        public static Championship GetLast()
+        public Championship GetLast()
         {
-            List<Championship> championships = GetAllChampionships();
-
             int currentYear = DateTime.Now.Year;
-            Championship lastChampionship = championships.FirstOrDefault();
-            foreach (Championship c in championships)
-            {
-                if (c.Year < currentYear && c.Year > lastChampionship.Year)
-                {
-                    lastChampionship = c;
-                }
-            }
 
-            if (lastChampionship.Equals(null) || lastChampionship.Year >= currentYear)
-            {
-                return null;
-            }
+            Championship lastChampionship = DBManager.QuerySingleObjectResult<Championship>(
+                string.Format("SELECT * " +
+                              "FROM championship " +
+                              "WHERE championship.year < {0} " +
+                              "ORDER BY championship.year DESC " +
+                              "LIMIT 1", 
+                              currentYear), 
+                () => ReaderToChampionshipObject());
 
             return lastChampionship;
         }
 
-        private static Championship ReaderToChampionshipObject()
+        protected Championship ReaderToChampionshipObject()
         {
-            var id = int.Parse(DatabaseManager.Reader[0].ToString());
-            var year = int.Parse(DatabaseManager.Reader[1].ToString());
-            var name = DatabaseManager.Reader[2].ToString();
+            var id = int.Parse(DBManager.Reader[0].ToString());
+            var year = int.Parse(DBManager.Reader[1].ToString());
+            var name = DBManager.Reader[2].ToString();
 
             return new Championship(id, year, name);
         }

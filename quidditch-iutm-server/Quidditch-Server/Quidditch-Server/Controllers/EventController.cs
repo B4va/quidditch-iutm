@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 namespace Quidditch_Server.Controllers
 {
     [ApiController]
-    public class ClubController : ControllerBase
+    public class EventController : ControllerBase
     {
         [HttpGet]
-        [Route("api/clubs")]
-        public IEnumerable<Club> GetAll()
+        [Route("api/events")]
+        public IEnumerable<Event> GetAll()
         {
-            return new Club().GetAllClubs();
+            return new Event().GetAllEvents();
         }
 
         [HttpGet]
-        [Route("api/clubs/{id}")]
-        public Club GetById(int id)
+        [Route("api/events/{id}")]
+        public Event GetById(int id)
         {
-            return new Club().GetById(id);
+            return new Event().GetById(id);
         }
     }
 }

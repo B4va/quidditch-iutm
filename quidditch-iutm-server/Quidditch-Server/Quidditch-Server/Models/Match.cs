@@ -17,39 +17,47 @@ namespace Quidditch_Server.Models
         //Needs to be done correctly with the DateTime Class
         public string DateTime { get; set; }
 
+        private DatabaseManager DBManager;
+
+        public Match() 
+        {
+            DBManager = new DatabaseManager();
+        }
+
         public Match(int id, string status, int homeTeamId, int visitorTeamId, string date, string time)
         {
+            DBManager = new DatabaseManager();
+
             Id = id;
             Status = status;
-            HomeTeamId = Team.GetById(homeTeamId);
-            VisitorTeamId = Team.GetById(visitorTeamId);
+            HomeTeamId = new Team().GetById(homeTeamId);
+            VisitorTeamId = new Team().GetById(visitorTeamId);
             DateTime = date + " - " + time;
         }
 
-        public static List<Match> GetAllMatches()
+        public List<Match> GetAllMatches()
         {
-            return DatabaseManager.QueryListResult<Match>("SELECT * FROM team", () =>
+            return DBManager.QueryListResult<Match>("SELECT * FROM match", () =>
             {
                 return ReaderToMatchObject();
             });
         }
 
-        public static Match GetById(int id)
+        public Match GetById(int id)
         {
-            return DatabaseManager.QuerySingleObjectResult<Match>(
+            return DBManager.QuerySingleObjectResult<Match>(
                 string.Format("SELECT * FROM match WHERE id = '{0}'", id),
                 () => ReaderToMatchObject());
         }
 
-        private static Match ReaderToMatchObject()
+        private Match ReaderToMatchObject()
         {
-            var id = int.Parse(DatabaseManager.Reader[0].ToString());
-            var status = DatabaseManager.Reader[1].ToString();
-            var test = DatabaseManager.Reader[2];
-            int homeTeamId = int.Parse(DatabaseManager.Reader[2].ToString());
-            int visitorTeamId = int.Parse(DatabaseManager.Reader[3].ToString());
-            var date = DatabaseManager.Reader[4].ToString();
-            var time = DatabaseManager.Reader[5].ToString();
+            var id = int.Parse(DBManager.Reader[0].ToString());
+            var status = DBManager.Reader[1].ToString();
+            int homeTeamId = int.Parse(DBManager.Reader[2].ToString());
+            int visitorTeamId = int.Parse(DBManager.Reader[3].ToString());
+            var date = DBManager.Reader[4].ToString();
+            var time = DBManager.Reader[5].ToString();
 
             return new Match(id, status, homeTeamId, visitorTeamId, date, time);
         }
