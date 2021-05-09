@@ -1,5 +1,18 @@
 <% layout('./_layout') -%>
 
-<div>
-    <p>Test</p>
-</div>
+<table class="table mt-4">
+    <thead>
+    <tr>
+        <th scope="col">Année</th>
+        <th scope="col">Championnat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for (let i = 0 ; i < championships.length ; i++) { %>
+        <tr>
+            <th scope="row"><%= championships[i].year %></th>
+            <td><a href="/championships/<%= championships[i].id %>"><%= championships[i].name %></a></td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
