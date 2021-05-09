@@ -19,6 +19,8 @@ namespace Quidditch_Server.Models
 
         public int HomeTeamScore { get; set; }
         public int VisitorTeamScore { get; set; }
+        public int GoldSnitch { get; set; }
+        public List<Event> Events { get; set; }
 
         private DatabaseManager DBManager;
 
@@ -38,6 +40,7 @@ namespace Quidditch_Server.Models
             DateTime = date + " - " + time;
             HomeTeamScore = GetTeamScore(HomeTeam.Id);
             VisitorTeamScore = GetTeamScore(VisitorTeam.Id);
+            GoldSnitch = GetGoldenSnitch();
         }
 
         public List<Match> GetAllMatches()
@@ -66,6 +69,17 @@ namespace Quidditch_Server.Models
                 $"WHERE match_id = {Id} " +
                 "AND e.type = 0 " +
                 $"AND c.id = {teamId}");
+        }
+
+        public int GetGoldenSnitch()
+        {
+            return DBManager.QueryIntResult(
+                "SELECT t.id " +
+                "FROM event e " +
+                "INNER JOIN player p on e.player_id = p.id " +
+                "INNER JOIN team t on p.club_id = t.club_id " +
+                $"WHERE match_id = {Id} " +
+                "AND e.type = 2 ");
         }
 
         private Match ReaderToMatchObject()

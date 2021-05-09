@@ -50,6 +50,17 @@ namespace Quidditch_Server.Models
                 () => ReaderToEventObject());
         }
 
+        public List<Event> GetMatchEvents(int matchId)
+        {
+            return DBManager.QueryListResult<Event>(
+                "SELECT * FROM event " +
+                $"WHERE match_id =  {matchId}"
+                , () =>
+            {
+                return ReaderToEventObject();
+            });
+        }
+
         private Event ReaderToEventObject()
         {
             var id = int.Parse(DBManager.Reader[0].ToString());

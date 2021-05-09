@@ -79,9 +79,10 @@ namespace Quidditch_Server.Utils
             Reader = command.ExecuteReader();
 
             //Read result of the query
-            Reader.Read();
-            i = int.Parse(this.Reader[0].ToString());
-            Debug.WriteLine($"Score = {i}");
+            if (Reader.Read())
+            {
+                i = int.Parse(this.Reader[0].ToString());
+            }
 
             //Close connection to the database
             connection.Close();
