@@ -88,7 +88,7 @@ namespace Quidditch_Server.Utils
 
             return i;
         }
-
+      
         /// <summary>
         /// Formats the connection string used to create a NpgsqlConnection Object 
         /// which can the be used to open a connection instance to the Postgres Database.

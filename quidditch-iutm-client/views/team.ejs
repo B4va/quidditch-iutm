@@ -1,5 +1,49 @@
 <% layout('./_layout') -%>
 
-<div>
-    <p>Test</p>
-</div>
+<h1 class="text-center"><%= team %></h1>
+<h2 class="text-secondary h4 text-center mt-4">Matchs</h2>
+
+<% for (let i = 0 ; i < matches.length ; i++) { %>
+    <div class="card mt-3">
+        <div class="row no-gutters align-items-center">
+            <div class="col-sm-3">
+                <div class="card-body text-center">
+                    <a href="/teams/<%= matches[i].home ? id : matches[i].opponent.id %>">
+                        <p class="card-text <%= matches[i].homeTeamWin ? 'font-weight-bold' : '' %>"><%= matches[i].home ? team : matches[i].opponent.name %></p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-body text-center">
+                    <% if (matches[i].status === STATUS.SCHEDULED) { %>
+                        <p class="scheduled-date my-1 font-weight-bold"><%= matches[i].date %></p>
+                    <% } else { %>
+                        <p class="status my-1 font-weight-bold"><%= matches[i].status === STATUS.IN_PROGRESS ? 'En cours' : 'Terminé' %></p>
+                        <p class="score my-1 h3">
+                    <span class="<%= matches[i].homeTeamWin ? 'font-weight-bold' : '' %>">
+                        <%= matches[i].scoreHome %> <%= matches[i].goldenSnitch === SNITCH.HOME ? '(V)' : ''%>
+                    </span>
+                            -
+                            <span class="<%= matches[i].visitorTeamWin ? 'font-weight-bold' : '' %>">
+                        <%= matches[i].scoreVisitor %> <%= matches[i].goldenSnitch === SNITCH.VISITOR ? '(V)' : ''%>
+                    </span>
+                        </p>
+                        <p class="date my-1"><%= matches[i].date %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-body text-center">
+                    <a href="/teams/<%= matches[i].home ? matches[i].opponent.id : id %>">
+                        <p class="card-text <%= matches[i].visitorTeamWin ? 'font-weight-bold' : '' %>"><%= matches[i].home ? matches[i].opponent.name : team %></p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-body text-center">
+                    <a href="/matches/<%= matches[i].id %>" class="btn btn-sm btn-primary">Détails</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

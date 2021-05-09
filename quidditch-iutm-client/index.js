@@ -6,7 +6,6 @@ const championshipsController = require('./controllers/championshipsController')
 const teamsController = require('./controllers/teamsController');
 const clubsController = require('./controllers/clubsController');
 const matchesController = require('./controllers/matchesController');
-const eventsController = require('./controllers/eventsController');
 
 /**
  * Configuration générale.
@@ -16,15 +15,16 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 app.engine('ejs', ejsLocals);
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
     next();
     if (req.path !== '/favicon.ico') {
         console.log('----------------------------');
         console.log('Route : ', req.path);
-        console.log('Params :', req.params);
-        console.log('Query :', req.query);
-        console.log('Body :', req.body);
+        console.log('Method : ', req.method);
+        console.log('Params : ', req.params);
+        console.log('Body : ', req.body);
         console.log('----------------------------');
     }
 });
@@ -52,12 +52,10 @@ app.get('/teams/:id', async (req, res) => await teamsController.readTeam(req, re
 
 // Clubs
 app.get('/clubs', async (req, res) => await clubsController.readClubs(req, res));
-app.get('/clubs/:id', async (req, res) => await clubsController.readClub(req, res));
 
 // Matches
 app.get('/matches/:id', async (req, res) => await matchesController.readMatch(req, res));
 app.post('/matches/:id', async (req, res) => await matchesController.updateMatch(req, res));
+app.get('/matches/:id/event', async (req, res) => await matchesController.newMatchEvent(req, res));
 app.post('/matches/:id/event', async (req, res) => await matchesController.createMatchEvent(req, res));
-
-// Events
-app.post('/events/:id', async (req, res) => await eventsController.deleteEvent(req, res));
+app.get('/matches/:matchId/deleteEvent/:eventId', async (req, res) => await matchesController.deleteMatchEvent(req, res));
