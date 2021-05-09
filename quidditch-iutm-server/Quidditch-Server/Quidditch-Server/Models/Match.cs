@@ -11,11 +11,14 @@ namespace Quidditch_Server.Models
     {
         public int Id { get; set; }
         public string Status { get; set; }
-        public Team HomeTeamId { get; set; }
-        public Team VisitorTeamId { get; set; }
+        public Team HomeTeam { get; set; }
+        public Team VisitorTeam { get; set; }
 
         //Needs to be done correctly with the DateTime Class
         public string DateTime { get; set; }
+
+        public int HomeTeamScore { get; set; }
+        public int VisitorTeamScore { get; set; }
 
         private DatabaseManager DBManager;
 
@@ -30,9 +33,11 @@ namespace Quidditch_Server.Models
 
             Id = id;
             Status = status;
-            HomeTeamId = new Team().GetById(homeTeamId);
-            VisitorTeamId = new Team().GetById(visitorTeamId);
+            HomeTeam = new Team().GetById(homeTeamId);
+            VisitorTeam = new Team().GetById(visitorTeamId);
             DateTime = date + " - " + time;
+            HomeTeamScore = GetTeamScore(HomeTeam.Id);
+            VisitorTeamScore = GetTeamScore(VisitorTeam.Id);
         }
 
         public List<Match> GetAllMatches()
@@ -48,6 +53,19 @@ namespace Quidditch_Server.Models
             return DBManager.QuerySingleObjectResult<Match>(
                 string.Format("SELECT * FROM match WHERE id = '{0}'", id),
                 () => ReaderToMatchObject());
+        }
+
+        public int GetTeamScore(int teamId)
+        {
+            return DBManager.QueryIntResult(
+                "SELECT COUNT(*) " +
+                "FROM event e " +
+                "INNER JOIN player p on e.player_id = p.id " +
+                "INNER JOIN team t on p.club_id = t.club_id " +
+                "INNER JOIN club c on c.id = p.club_id " +
+                $"WHERE match_id = {Id} " +
+                "AND e.type = 0 " +
+                $"AND c.id = {teamId}");
         }
 
         private Match ReaderToMatchObject()

@@ -28,6 +28,7 @@ namespace Quidditch_Server.Models
             this.Id = id;
             this.Year = year;
             this.Name = name;
+            this.Teams = new List<Team>();
         }
 
         public List<Championship> GetAllChampionships()

@@ -16,6 +16,7 @@ namespace Quidditch_Server.Models
         public Championship Championship { get; set; }
         public Club Club { get; set; } 
         public List<Match> Matches { get; set; }
+        public int Points { get; set; }
 
         private DatabaseManager DBManager;
 
