@@ -23,6 +23,7 @@ namespace Quidditch_Server.Models
         public Club(int id, string name)
         {
             DBManager = new DatabaseManager();
+          
             this.Id = id;
             this.Name = name;
         }

@@ -2,6 +2,7 @@
 using Quidditch_Server.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,6 +62,33 @@ namespace Quidditch_Server.Utils
             return QueryListResult<T>(query, function).FirstOrDefault();
         }
 
+        public int QueryIntResult(string query)
+        {
+            int i = 0;
+
+            //Get an instance of the NpgsqlConnection object
+            var connection = GetConnection();
+
+            //Open the connection to the database
+            connection.Open();
+
+            //Defines a query for the connected database
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            //Execute the query
+            Reader = command.ExecuteReader();
+
+            //Read result of the query
+            Reader.Read();
+            i = int.Parse(this.Reader[0].ToString());
+            Debug.WriteLine($"Score = {i}");
+
+            //Close connection to the database
+            connection.Close();
+
+            return i;
+        }
+      
         /// <summary>
         /// Formats the connection string used to create a NpgsqlConnection Object 
         /// which can the be used to open a connection instance to the Postgres Database.
