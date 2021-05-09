@@ -21,7 +21,11 @@ namespace Quidditch_Server.Controllers
         [Route("api/matches/{id}")]
         public Match GetById(int id)
         {
-            return new Match().GetById(id);
+            var match = new Match().GetById(id);
+
+            match.Events = new Event().GetMatchEvents(match.Id);
+
+            return match;
         }
     }
 }
